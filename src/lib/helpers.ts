@@ -20,8 +20,6 @@ export const fetchProjectData = async (projectId: string) => {
     return projectData;
   } catch (err) {
     throw new Error(`Error fetching project data: ${err instanceof Error ? err.message : String(err)}`);
-  } finally {
-    await client.close();
   }
 };
 
