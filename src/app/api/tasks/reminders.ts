@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
-import { verifyJWT } from '@/lib/auth'; // hypothetical JWT verification
+import { verifyJWT } from '@/lib/auth';
 import { NextApiRequest } from 'next/types';
 
 interface AuthedRequest extends NextApiRequest {
-  user?: { id: string; email: string }; // example user object structure
+  user?: { id: string; email: string };
 }
 
 export async function GET(req: AuthedRequest) {
