@@ -9,7 +9,6 @@ const auth0 = initAuth0({
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
   scope: 'openid profile email',
   session: {
-    cookieSecret: process.env.COOKIE_SECRET,
     cookieLifetime: 60 * 60 * 8,
   },
 });
@@ -33,3 +32,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: err instanceof Error ? err.message : String(err) }, { status: 500 });
   }
 }
+
