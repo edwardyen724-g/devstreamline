@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { NextApiRequest } from 'next';
 import { initAuth0 } from '@auth0/nextjs-auth0';
+import { User } from 'next-auth';
 
 const auth0 = initAuth0({
   issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
@@ -14,7 +15,7 @@ const auth0 = initAuth0({
 });
 
 interface AuthedRequest extends NextApiRequest {
-  user?: any;
+  user?: User;
 }
 
 export async function POST(req: Request) {
@@ -32,4 +33,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: err instanceof Error ? err.message : String(err) }, { status: 500 });
   }
 }
-
