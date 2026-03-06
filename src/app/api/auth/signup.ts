@@ -10,7 +10,7 @@ const auth0 = initAuth0({
   scope: 'openid profile email',
   session: {
     cookieSecret: process.env.COOKIE_SECRET,
-    cookieLifetime: 60 * 60 * 8, // 8 hours
+    cookieLifetime: 60 * 60 * 8,
   },
 });
 
