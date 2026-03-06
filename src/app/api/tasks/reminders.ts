@@ -15,6 +15,7 @@ export async function GET(req: AuthedRequest) {
     }
 
     const user = verifyJWT(token);
+    // Change from boolean to object containing user details
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
