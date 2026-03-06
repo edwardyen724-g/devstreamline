@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { connectToDatabase } from '@/lib/mongodb'; // hypothetical MongoDB connection function
+import { connectToDatabase } from '@/lib/mongodb';
 import { getSession } from 'next-auth/react';
 
 interface AuthedRequest extends NextApiRequest {
@@ -18,7 +18,6 @@ const handler = async (req: AuthedRequest, res: NextApiResponse) => {
 
   const rateLimitKey = req.headers['x-real-ip'] || req.connection.remoteAddress;
   
-  // Basic rate limiting
   if (allocationMap.has(rateLimitKey as string)) {
     const requestCount = allocationMap.get(rateLimitKey as string)!;
     if (requestCount >= 5) {
@@ -39,7 +38,6 @@ const handler = async (req: AuthedRequest, res: NextApiResponse) => {
     req.user = { email: session.user?.email || '', name: session.user?.name || '' };
     
     const db = await connectToDatabase();
-    // Fetch resource allocation data from the database
     const allocations = await db.collection('allocations').find({}).toArray();
 
     return res.status(200).json(allocations);
