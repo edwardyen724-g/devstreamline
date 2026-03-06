@@ -47,4 +47,3 @@ const handler = async (req: AuthedRequest, res: NextApiResponse) => {
 };
 
 export default handler;
-
