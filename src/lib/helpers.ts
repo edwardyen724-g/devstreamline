@@ -42,3 +42,4 @@ export const visualizeResourceAllocation = (resources: Record<string, number>) =
     percentage: ((allocation / total) * 100).toFixed(2) + '%',
   }));
 };
+
