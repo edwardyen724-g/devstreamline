@@ -2,7 +2,6 @@ import { MongoClient, MongoClientOptions } from 'mongodb';
 
 const uri = process.env.MONGODB_URI as string;
 const options: MongoClientOptions = {
-  useNewUrlParser: true,
   useUnifiedTopology: true,
 };
 
@@ -24,3 +23,4 @@ export const connectToDatabase = async () => {
   if (!clientPromise) throw new Error('MongoDB client not initialized.');
   return clientPromise;
 };
+
