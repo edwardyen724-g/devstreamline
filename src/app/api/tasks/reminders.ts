@@ -27,3 +27,4 @@ export async function GET(req: AuthedRequest) {
     return NextResponse.json({ error: err instanceof Error ? err.message : String(err) }, { status: 500 });
   }
 }
+
