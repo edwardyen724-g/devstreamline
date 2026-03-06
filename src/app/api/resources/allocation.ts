@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import connectToDatabase from '@/lib/mongodb';
+import { connectToDatabase } from '../../../lib/mongodb';
 import { getSession } from 'next-auth/react';
 
 interface AuthedRequest extends NextApiRequest {
