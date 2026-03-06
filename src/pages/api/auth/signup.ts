@@ -1,42 +1,36 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { initializeApp, applicationDefault, cert } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
-import { z } from 'zod';
-import admin from 'firebase-admin';
+import { NextResponse } from 'next/server';
+import { NextApiRequest } from 'next';
+import { initAuth0 } from '@auth0/nextjs-auth0';
+import { User } from 'next-auth'; // Added import for User type
 
-if (!admin.apps.length) {
-  initializeApp({
-    credential: applicationDefault(),
-  });
-}
-
-interface AuthedRequest extends NextApiRequest {
-  body: {
-    email: string;
-    password: string;
-  };
-}
-
-const signupSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
+const auth0 = initAuth0({
+  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  clientID: process.env.AUTH0_CLIENT_ID,
+  clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  scope: 'openid profile email',
+  session: {
+    cookieSecret: process.env.COOKIE_SECRET,
+    cookieLifetime: 60 * 60 * 8,
+  },
 });
 
-export default async function handler(req: AuthedRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
-  }
+interface AuthedRequest extends NextApiRequest {
+  user?: User;
+}
 
+export async function POST(req: Request) {
   try {
-    const { email, password } = signupSchema.parse(req.body);
-  
-    const userRecord = await getAuth().createUser({
-      email,
-      password,
-    });
+    const { email, password } = await req.json();
+    
+    if (!email || !password) {
+      return NextResponse.json({ message: 'Email and password are required.' }, { status: 400 });
+    }
 
-    return res.status(201).json({ uid: userRecord.uid });
+    const { user } = await auth0.handleLogin({ email, password });
+
+    return NextResponse.json({ message: 'User created successfully.', user }, { status: 201 });
   } catch (err) {
-    return res.status(400).json({ message: err instanceof Error ? err.message : String(err) });
+    return NextResponse.json({ message: err instanceof Error ? err.message : String(err) }, { status: 500 });
   }
 }
