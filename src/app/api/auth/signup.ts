@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'Email and password are required.' }, { status: 400 });
     }
 
-    const { user } = await auth0.register({ email, password });
+    const { user } = await auth0.handleLogin({ email, password });
 
     return NextResponse.json({ message: 'User created successfully.', user }, { status: 201 });
   } catch (err) {
