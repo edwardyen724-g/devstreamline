@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import connectToDatabase from '@/lib/mongodb';
+import { connectToDatabase } from '@/lib/mongodb';
 import { verifyJWT } from '@/lib/auth';
 import { NextApiRequest } from 'next/types';
 
