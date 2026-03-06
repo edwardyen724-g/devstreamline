@@ -20,4 +20,7 @@ if (process.env.NODE_ENV === 'development') {
   clientPromise = client.connect();
 }
 
-export default clientPromise;
+export const connectToDatabase = async () => {
+  if (!clientPromise) throw new Error('MongoDB client not initialized.');
+  return clientPromise;
+};
