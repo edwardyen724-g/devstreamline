@@ -20,7 +20,7 @@ async function generateChecklist(req: AuthedRequest, res: NextApiResponse) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const db = client.db('your_database_name');
+    const db = client.db();
     const checklistItems = [
       "Set up IDE integration for automated task reminders",
       "Integrate version control insights within your IDE",
